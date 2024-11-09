@@ -32,4 +32,4 @@ EXPOSE 3000
 EXPOSE 8000
 
 # Start both FastAPI and Next.js applications
-CMD ["sh", "-c", "uvicorn api.index:app --host 0.0.0.0 --port 8000 & pnpm run start"]
+CMD ["sh", "-c", "uvicorn api.index:app --host :: --port 8000 & pnpm run start"]
