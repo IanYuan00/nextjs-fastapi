@@ -12,34 +12,22 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-      
+
     steps:
-      
       - name: Checkout code
         uses: actions/checkout@v3
 
-      
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-      
-      - name: Install Node.js dependencies
-        run: |
-          npm install -g pnpm
-          pnpm install
-
-      - name: Build Next.js application
-        run: pnpm run build
-
-      
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
       - name: Install Python dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
+
+      - name: Install pytest for CI
+        run: pip install pytest
 
       - name: Run FastAPI tests
         run: pytest
@@ -55,11 +43,11 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
-          username: ${{ vars.DOCKER_USERNAME }}
-          password: ${{ vars.DOCKER_PASSWORD }}
+          username: ${{ vars.DOCKER_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push Docker image
         run: |
           docker build -t my-nextjs-fastapi-app .
-          docker tag my-nextjs-fastapi-app:latest ${{ vars.DOCKER_USERNAME }}/my-nextjs-fastapi-app:latest
-          docker push ${{ vars.DOCKER_USERNAME }}/my-nextjs-fastapi-app:latest
+          docker tag my-nextjs-fastapi-app:latest ${{ vars.DOCKER_USER }}/my-nextjs-fastapi-app:latest
+          docker push ${{ vars.DOCKER_USER }}/my-nextjs-fastapi-app:latest
