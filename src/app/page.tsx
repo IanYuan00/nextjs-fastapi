@@ -19,7 +19,7 @@ const Home: React.FC = () => {
       <TodoForm />
       <h1 className="text-2xl font-bold mb-4">Todo List</h1>
       {todos.length === 0 ? (
-        <p className="text-center">No Todos Found</p>
+        <p className="text-center">No Todos Found.</p>
       ) : (
         todos.map((todo) => <TodoItem key={todo.id} todo={todo} />)
       )}
