@@ -1,6 +1,6 @@
-FROM node:20-alpine
+FROM node:20-alpine AS builder
 
-RUN apk add --no-cache python3 py3-pip
+RUN apk add --no-cache python3 py3-pip build-base libffi-dev musl-dev
 
 WORKDIR /app
 
@@ -11,7 +11,9 @@ RUN pnpm install
 
 COPY . .
 
-RUN pip install -r requirements.txt
+COPY requirements.txt .
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
 
 RUN pnpm run build
 
