@@ -1,15 +1,16 @@
-FROM node:20-alpine
+FROM python:3.11-slim AS backend
 
-RUN apk add --no-cache python3 py3-pip
+RUN apt update && apt install -y nodejs npm build-essential
 
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml ./
-
 RUN npm install -g pnpm
 RUN pnpm install
 
 COPY requirements.txt .
+
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
