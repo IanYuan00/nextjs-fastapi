@@ -18,4 +18,4 @@ RUN pnpm run build
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "pnpm run start & uvicorn api.main:app --host 0.0.0.0 --port 3000"]
+CMD ["sh", "-c", "pnpm run start & uvicorn api.index:app --host 0.0.0.0 --port 3000"]
