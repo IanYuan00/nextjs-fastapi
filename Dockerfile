@@ -1,6 +1,6 @@
-FROM node:20-alpine AS builder
+FROM python:3.11-slim AS backend
 
-RUN apk add --no-cache python3 py3-pip build-base libffi-dev musl-dev
+RUN apt update && apt install -y nodejs npm build-essential
 
 WORKDIR /app
 
@@ -12,7 +12,6 @@ RUN pnpm install
 COPY . .
 
 COPY requirements.txt .
-RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 RUN pnpm run build
